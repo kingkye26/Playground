@@ -4,20 +4,22 @@
 #[ -f 'baddie.char' ] && cp 'baddie.char' 'baddie.char.inst
 #[ -f 'luffy.char' ] && . 'luffy.char'
 #[ -f 'baddie.char' ] && . 'baddie.char'
-luffy_strength=$( grep "strength" 'luffy.char' | grep -oE "[0-9]+" )
-luffy_health=$( grep "health" 'luffy.char' | grep -oE "[0-9]+" )
-baddie_health=$( grep "health" 'baddie.char' | grep -oE "[0-9]+" )
-baddie_strength=$( grep "strength" 'baddie.char' |  grep -oE "[0-9]+" )
+name="$1"
+[ ! -z "$name" ] && name="$1"|| read -p "hero name: " name
+p1_strength=$( grep "strength" 'luffy.char' | grep -oE "[0-9]+" )
+p1_health=$( grep "health" 'luffy.char' | grep -oE "[0-9]+" )
+p2_health=$( grep "health" 'baddie.char' | grep -oE "[0-9]+" )
+p2_strength=$( grep "strength" 'baddie.char' |  grep -oE "[0-9]+" )
 while :
 do
-  echo "Luffy attacks"
+  echo "$name attacks"
   sleep 1
-  baddie_health=$((baddie_health - luffy_strength))
-  echo "baddie's health is $baddie_health"
-  [ "$baddie_health" -le '0' ] && break
+  p2_health=$((p2_health - p1_strength))
+  echo "baddie's health is $p2_health"
+  [ "$p2_health" -le '0' ] && break
   echo "baddie attacks"
   sleep 1
-  luffy_health=$((luffy_health - baddie_strength))
-  echo "luffy's health is $luffy_health"
-  [ "$luffy_health" -le '0' ] && break
+  p1_health=$((p1_health - p2_strength))
+  echo "$name's health is $p1_health"
+  [ "$p1_health" -le '0' ] && break
 done
