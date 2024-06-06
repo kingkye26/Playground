@@ -6,10 +6,15 @@
 #[ -f 'baddie.char' ] && . 'baddie.char'
 name="$1"
 [ ! -z "$name" ] && name="$1"|| read -p "hero name: " name
-p1_strength=$( grep "strength" 'luffy.char' | grep -oE "[0-9]+" )
-p1_health=$( grep "health" 'luffy.char' | grep -oE "[0-9]+" )
-p2_health=$( grep "health" 'baddie.char' | grep -oE "[0-9]+" )
-p2_strength=$( grep "strength" 'baddie.char' |  grep -oE "[0-9]+" )
+#p1_strength=$( grep "strength" 'luffy.char' | grep -oE "[0-9]+" )
+attr(){
+grep "$2" "$1.char" | grep -oE "[0-9]+"
+}
+p1_strength=$(attr luffy strength)
+p1_health=$(attr luffy health )
+p2_health=$(attr baddie health )
+p2_strength=$(attr baddie strength )
+#attr luffy strength
 while :
 do
   echo "$name attacks"
