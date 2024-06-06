@@ -1,16 +1,12 @@
 #!/bin/bash
 . "/data/data/com.termux/files/home/caplog.app/orders.ky"
 template="$(cat ~/storage/shared/Ninshu/Templates/CaptainsLogX.md)"
-#capdir=$(cat  ~/storage/shared/Ninshu/capdir.md)
 week=$(echo "$(date +%Y)-Week $(date +%U)")
 y=$(echo "$(date +%y)")
 month=$(echo "$(date +%b)")
 my_date(){
         cero="$(echo "$(date +%d)" | cut -b 1)";
         [ ! "$cero" == '0' ] && dom="$(date +%d)" || dom="$(echo "$(date +%d)" | cut -b 2)"
-#       echo "$dom"
-#dom=$(my_date)
-#wtf=$(my_date)
 case "$dom" in
         1 | 21 | 31)
         echo "$dom""st";;
