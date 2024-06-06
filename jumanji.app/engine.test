@@ -1,0 +1,23 @@
+#!/bin/bash
+#[ -f board ] && cp board board.inst
+#[ -f 'luffy.char' ] && cp 'luffy.char' 'luffy.char.inst
+#[ -f 'baddie.char' ] && cp 'baddie.char' 'baddie.char.inst
+#[ -f 'luffy.char' ] && . 'luffy.char'
+#[ -f 'baddie.char' ] && . 'baddie.char'
+luffy_health=$(grep -oE "health" 'luffy.char' | tail -c 4)
+luffy_strength=$(grep -oE "strength" 'luffy.char' | tail -c 3)
+baddie_health=$(grep -oE "health" 'baddie.char' | tail -c -3)
+baddie_strength=$(grep -oE "strength" 'baddie.char' | tail -c -2)
+until [ $luffy_health -eq 0 ] || [ $baddie_health -eq 0 ]
+do
+  echo "Luffy attacks"
+  sleep 1
+  baddie_health=$((baddie_health - luffy_strength))
+  echo "baddie's health is $baddie_health"
+  echo "baddie attacks"
+  sleep1
+  luffy_health=$((luffy_health - baddie_strength))
+  echo "luffy's health is $luffy_health"
+done
+  
+  
