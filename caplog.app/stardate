@@ -1,4 +1,7 @@
 #!/bin/bash
+backup(){
+cp "$dir/$week.md" "$dir/$week.prev"
+}
 . "/data/data/com.termux/files/home/caplog.app/orders.ky"
 template="$(cat ~/storage/shared/Ninshu/Templates/CaptainsLogX.md)"
 week=$(echo "$(date +%Y)-Week $(date +%U)")
@@ -29,5 +32,5 @@ title=$((titleraw+2)); echo "$title"
 next_day="#### $month ""$(my_date), ""$(date +%a)"
 #echo "$next_day" > "$dir/$week.prev"
 #[ $(date +%a)
-
+[ -f "$dir/$week.md" ] && backup
 [ ! $(date +%a) == "Sun" ] && insert_line_will_ovrwrite_file "$dir/$week.md" "$next_day" "$(tits)" || echo "$template" > "$dir/$week.md" && insert_line_will_ovrwrite_file "$dir/$week.md" "$next_day" "$(tits)"
