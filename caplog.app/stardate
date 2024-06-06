@@ -1,0 +1,37 @@
+#!/bin/bash
+. "/data/data/com.termux/files/home/caplog.app/orders.ky"
+template="$(cat ~/storage/shared/Ninshu/Templates/CaptainsLogX.md)"
+#capdir=$(cat  ~/storage/shared/Ninshu/capdir.md)
+week=$(echo "$(date +%Y)-Week $(date +%U)")
+y=$(echo "$(date +%y)")
+month=$(echo "$(date +%b)")
+my_date(){
+        cero="$(echo "$(date +%d)" | cut -b 1)";
+        [ ! "$cero" == '0' ] && dom="$(date +%d)" || dom="$(echo "$(date +%d)" | cut -b 2)"
+#       echo "$dom"
+#dom=$(my_date)
+#wtf=$(my_date)
+case "$dom" in
+        1 | 21 | 31)
+        echo "$dom""st";;
+        2 | 22)
+        echo "$dom""nd";;
+        3 | 23)
+        echo "$dom""rd";;
+        *)
+        echo "$dom""th";;
+esac
+}
+
+#dir=$("storage/shared/Ninshu/CaptainsLog/Years/$y/Quarters/Months/Weeks/test>
+dir="/data/data/com.termux/files/home/storage/shared/Ninshu/test"
+tits(){ titleraw="$(get_line_number "$dir/$week.md" "Captain's Log")"
+title=$((titleraw+2)); echo "$title"
+}
+#Apr 27th, Sat
+#echo "$template" > "$dir/$week.md"
+next_day="#### $month ""$(my_date), ""$(date +%a)"
+#echo "$next_day" > "$dir/$week.prev"
+#[ $(date +%a)
+
+[ ! $(date +%a) == "Sun" ] && insert_line_will_ovrwrite_file "$dir/$week.md" "$next_day" "$(tits)" || echo "$template" > "$dir/$week.md" && insert_line_will_ovrwrite_file "$dir/$week.md" "$next_day" "$(tits)"
