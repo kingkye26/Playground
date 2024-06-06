@@ -1,0 +1,121 @@
+#!/bin/bash
+
+dash(){
+size="$(tput cols)"
+i="1"
+#echo "$size"
+until [ "$i" == "$size" ]
+do
+	((i++))
+	echo -n "-"
+done
+}
+
+dir_chk(){
+a=$(pwd)
+if [ $(pwd) == $a ]
+then
+	echo "nice"
+else
+	echo "nah"
+fi
+}
+
+file_tester(){ 
+file="$1"
+cmd="$2"
+t="$3"
+#if file exists dont do action
+#[ -a $file ] || $cmd "$t"
+#if file exist do action
+[ -a $file ] && $cmd "$t"
+}
+
+
+get_line_from_number(){
+filename="$1"
+linenumber="$2"
+line=$( cat "$filename" | sed -n "$linenumber"p)
+echo "$line"
+}
+get_line_number(){
+filename="$1"
+oldword="$2"
+newword="$3"
+linenumber=$( grep -n "$oldword" "$filename" | cut -d: -f1)
+echo "$linenumber"
+}
+if_a_eq_b(){
+b="$2"
+a="$1"
+c="$3"
+d="$4"
+if [ "$b" == "$a" ]
+then
+	echo "$c"
+else
+	echo "$d"
+fi
+#echo "$b $a"
+}
+iterative_file_name(){
+filename="$1"
+newname=$(basename "${filename%.*}")
+i=$(find "$(pwd)" -type f | grep -E "$newname" | wc -l)
+#iterative_name=$(
+echo "$newname""$i"
+#)
+#echo "$iterative_name"
+}
+
+multi_proc_chk(){
+#pgrep -c "$1"
+amount="$(pgrep -c "$1")"
+[ $amount -gt 1 ] && echo "true" || echo "false"
+echo $amount
+}
+
+replace_string(){
+# Define the string and the word to replace
+original_string="$1"
+oldword="$2"
+newword="$3"
+
+# Replace the word
+new_string=$(echo "$original_string" | sed "s/$oldword/$newword/g")
+
+# Output the new string
+#echo "Original string: $original_string"
+#echo "New string: $new_string"
+echo "$new_string"
+# to use file: bash replace.word.basic "$(cat filename)" oldword newword
+}
+
+replace_word_in_file(){
+filename="$1"
+oldword="$2"
+newword="$3"
+new_string=$(cat "$filename" | sed "s/$oldword/$newword/g")
+#new=$(bash replace.word.basic "$filename" "$oldword" "$newword")
+#iterative_name=$(bash iterative.file.name "$filename")
+echo "$new_string"
+# > "$iterative_name"
+}
+
+xinsert_line_will_ovrwrite_file(){
+file_path="$1"
+line_number="$3"
+new_line="$2"
+# Insert the new line at the specified line number
+sed -i "${line_number}i${new_line}" "$file_path"
+}
+
+insert_line_will_ovrwrite_file(){                                             file_path="$1"
+file_tmp=$(echo "$file_path"".tmp")
+mv "$file_path" "$file_tmp"
+line_number="$3"
+new_line="$2"
+# Insert the new line at the specified line number
+sed -i "${line_number}i${new_line}" "$file_tmp"
+mv "$file_tmp" "$file_path"
+}
