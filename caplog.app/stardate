@@ -1,6 +1,7 @@
 #!/bin/bash
+[ ! -d 'star.backup' ] && mkdir 'star.backup'
 backup(){
-cp "$dir/$week.md" "$dir/$week.prev"
+cp "$$dir/$week.md" "star.backup/$week.backup.md"
 }
 . "/data/data/com.termux/files/home/caplog.app/orders.ky"
 template="$(cat ~/storage/shared/Ninshu/Templates/CaptainsLogX.md)"
