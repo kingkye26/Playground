@@ -1,0 +1,57 @@
+#!/bin/bash
+# "d" should be temporary
+d="$(bash case.di)"
+#template="case.rawt"
+template="$1"
+[ -n "$1" ] || read -p "template: " template 
+#echo "$d"
+cat "$template"
+num="1"
+snip () { snap=$(cat "$1"); echo "$snap"
+}
+f1 () { f=$(bash $d/orders/replace.string "$1" "$2" "$3"); echo "$f" > new_case
+}
+nextUP () { echo -e "\n"; cat new_case; echo -e "\n"
+}
+#
+#
+snap=$(cat "$template")
+while :
+do
+	read -p "oldword: " oldword
+	[ -n "$oldword" ] || break
+	read -p "newword: " newword
+	f1 "$(echo "$snap")" "$oldword" "$newword"
+	snap=$(cat "new_case")
+#	bash menu.monitor "$(echo "$snap")"
+	((num++))
+	nextUP
+done
+select opt in save insert
+do
+	case $opt in
+		save)
+			read -p "newfilename: " nfn
+			cp new_case "$nfn"
+			break;;
+		insert)
+			inst="$(echo -n "$(cat new_case)")"
+			read -p "file: " targets
+			read -p "target: " target
+			bash $d/orders/replace.word.in.file "$(echo -n $targets)" "$target" "$inst"
+			snap=$(cat "new_case")
+			nextUP;;
+esac
+done
+<<comment
+read -p "cmd2: " rcmd2
+snap=$(cat "new_case")
+f1 "$(echo "$snap")" "cmd2" "$rcmd2"
+#
+nextUP
+#
+read -p "cmd3: " rcmd3
+f1 "$(echo "$snap")" "cmd3" "$rcmd3"
+echo -e "\n"
+cat new_case
+comment

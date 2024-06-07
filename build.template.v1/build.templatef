@@ -1,0 +1,32 @@
+#!/bin/bash
+# "d" should be temporary
+d="$(bash case.di)"
+#template="case.rawt"
+template="$1"
+#echo "$d"
+cat "$template"
+read -p "cmd1: " rcmd1
+snip () { snap=$(cat "$1"); echo "$snap"
+}
+f1 () { f=$(bash $d/orders/replace.string "$1" "$2" "$3"); echo "$f" > new_case
+}
+nextUP () { echo -e "\n"; cat new_case; echo -e "\n"
+}
+#
+#
+snap=$(cat "$template")
+f1 "$(echo "$snap")" "cmd1" "$rcmd1"
+#
+nextUP
+#
+read -p "cmd2: " rcmd2
+snap=$(cat "new_case")
+f1 "$(echo "$snap")" "cmd2" "$rcmd2"
+#
+nextUP
+#
+read -p "cmd3: " rcmd3
+f1 "$(echo "$snap")" "cmd3" "$rcmd3"
+echo -e "\n"
+cat new_case
+

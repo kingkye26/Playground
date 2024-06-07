@@ -1,0 +1,9 @@
+case var in
+
+        1)
+         commando "1";;
+        0)
+         cmd2 "2";;
+        *)
+         thunderbolt "3";;
+esac

@@ -1,0 +1,9 @@
+case var in
+
+        1)
+         cmd1 "1";;
+        0)
+         cmd2 "2";;
+        *)
+         echo "3";;
+esac

@@ -1,0 +1,33 @@
+#!/bin/bash
+# "d" should be temporary
+d="$(bash case.di)"
+#template="case.rawt"
+template="$1"
+#echo "$d"
+cat "$template"
+read -p "cmd1: " rcmd1
+f1 () { f=$(bash $d/orders/replace.string "$1" "$2" "$3"); echo "$f"
+}
+#f1 () { f=$(bash /x/Technomancy/kbin/orders/replace.string "$1" "$2" "$3"); echo "$f"
+#}
+snap=$(cat "$template")
+f1 "$(echo "$snap")" "cmd1" "$rcmd1" > new_case
+echo -e "\n"
+cat new_case
+echo -e "\n"
+read -p "cmd2: " rcmd2
+snap=$(cat "new_case")
+f1 "$(echo "$snap")" "cmd2" "$rcmd2" > new_case
+cat new_case
+echo -e "\n"
+#cat case.rawt
+read -p "cmd3: " rcmd3
+#snap=$(cat "case.rawt")
+f1 "$(echo "$snap")" "cmd3" "$rcmd" > new_case
+echo -e "\n"
+cat new_case
+#bash /x/Technomancy/kbin/orders/replace.string "$(echo "$snap")" "cmd1" "$rcmd1" > new_case
+#cat new_case
+#snap2=$(cat "new_case")
+#read rcmd2
+#bash /x/Technomancy/kbin/orders/replace.string "$(echo "$snap2")" "cmd2" "$rcmd2"

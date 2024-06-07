@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Define the string and the word to replace
+original_string="$1"
+oldword="$2"
+newword="$3"
+
+# Replace the word
+new_string=$(echo "$original_string" | sed "s/$oldword/$newword/g")
+
+# Output the new string
+#echo "Original string: $original_string"
+#echo "New string: $new_string"
+echo "$new_string"
+# to use file: bash replace.word.basic "$(cat filename)" oldword newword
