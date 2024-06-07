@@ -1,13 +1,16 @@
 #!/bin/bash
 [ ! -d 'star.backup' ] && mkdir 'star.backup'
 backup(){
-cp "$$dir/$week.md" "star.backup/$week.backup.md"
+cp "$dir/$week.md" "star.backup/$week.backup.md"
 }
 . "/data/data/com.termux/files/home/caplog.app/orders.ky"
 template="$(cat ~/storage/shared/Ninshu/Templates/CaptainsLogX.md)"
 week=$(echo "$(date +%Y)-Week $(date +%U)")
+###week="2024-Week 52"##
 y=$(echo "$(date +%y)")
+####y=24##
 month=$(echo "$(date +%b)")
+###month="Jan"
 my_date(){
         cero="$(echo "$(date +%d)" | cut -b 1)";
         [ ! "$cero" == '0' ] && dom="$(date +%d)" || dom="$(echo "$(date +%d)" | cut -b 2)"
