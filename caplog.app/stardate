@@ -8,9 +8,9 @@ template="$(cat ~/storage/shared/Ninshu/Templates/CaptainsLogX.md)"
 week=$(echo "$(date +%Y)-Week $(date +%U)")
 ###week="2024-Week 52"##
 y=$(echo "$(date +%y)")
-####y=24##
+#### y=24 ##
 month=$(echo "$(date +%b)")
-###month="Jan"
+### month="Jan" ###
 my_date(){
         cero="$(echo "$(date +%d)" | cut -b 1)";
         [ ! "$cero" == '0' ] && dom="$(date +%d)" || dom="$(echo "$(date +%d)" | cut -b 2)"
@@ -34,6 +34,7 @@ title=$((titleraw+2)); echo "$title"
 #Apr 27th, Sat
 #echo "$template" > "$dir/$week.md"
 next_day="#### $month ""$(my_date), ""$(date +%a)"
+### next_day=Apr 27th, Sat ####
 #echo "$next_day" > "$dir/$week.prev"
 #[ $(date +%a)
 [ -f "$dir/$week.md" ] && backup
