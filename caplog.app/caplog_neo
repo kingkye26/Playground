@@ -1,0 +1,28 @@
+#!/bin/bash
+. stardate_src
+[ ! -d "$week" ] && mkdir "$week"
+echo "$next_day" > "$week/$(date +%a)"
+#echo "$template"
+#entire_template=$(cat $'template')
+##  entire template ## 1-21
+## buttons ##
+buttons=$(head -n 13 "/data/data/com.termux/files/home/storage/shared/Ninshu/Templates/CaptainsLogX.md")
+scratch_fetch(){
+scratch_end=$(get_line_number "render.md" "Captain's Log")
+scratch_begin=$(get_line_number "render.md" "Scratch")
+scratch_range="$((scratch_end-scratch_begin))"
+#scratch_end=$((get_scratch-1));
+#echo $scratch_end
+#render_line_count=$(cat render.md | wc -l)
+head -n "$scratch_end" render.md | tail -n "$scratch_range"
+}
+
+scratch=$(head -n 15 "/data/data/com.termux/files/home/storage/shared/Ninshu/Templates/CaptainsLogX.md" | tail -n 1)
+cplg=$(head -n 17 "/data/data/com.termux/files/home/storage/shared/Ninshu/Templates/CaptainsLogX.md" | tail -n 1)
+highlights=$(tail -n 1 "/data/data/com.termux/files/home/storage/shared/Ninshu/Templates/CaptainsLogX.md")
+
+[ ! -f "render.md" ] && echo -e "$buttons\n$scratch\n$cplg\n$(cat "$week/$(date +%a)")\n$highlights" > render.md
+while :
+do
+	echo -e "$buttons\n$(scratch_fetch)\n$cplg\n$(cat "$week/$(date +%a)")\n$highlights" > render.md
+done
