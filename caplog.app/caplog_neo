@@ -1,28 +1,46 @@
-#!/bin/bash
-. stardate_src
 [ ! -d "$week" ] && mkdir "$week"
+## week="2024-Week 23" ###
 echo "$next_day" > "$week/$(date +%a)"
+## next_day="#### Jun 9, Sun" ###
 #echo "$template"
 #entire_template=$(cat $'template')
 ##  entire template ## 1-21
 ## buttons ##
+
 buttons=$(head -n 13 "/data/data/com.termux/files/home/storage/shared/Ninshu/Templates/CaptainsLogX.md")
-scratch_fetch(){
-scratch_end=$(get_line_number "render.md" "Captain's Log")
-scratch_begin=$(get_line_number "render.md" "Scratch")
+
+scratch_external(){
+echo $(cat "$week/scratch.md")
+}
+scratch_internal(){
+cap_begin=$(get_line_number "render.md" "Captain's Log")
+scratch_header=$(get_line_number "render.md" "Scratch")
+scratch_begin=$((scratch_header+1))
+scratch_end=$((cap_begin-1));
 scratch_range="$((scratch_end-scratch_begin))"
-#scratch_end=$((get_scratch-1));
 #echo $scratch_end
-#render_line_count=$(cat render.md | wc -l)
+render_line_count=$(cat render.md | wc -l)
 head -n "$scratch_end" render.md | tail -n "$scratch_range"
+# > "$week/scratch.md"
 }
 
-scratch=$(head -n 15 "/data/data/com.termux/files/home/storage/shared/Ninshu/Templates/CaptainsLogX.md" | tail -n 1)
-cplg=$(head -n 17 "/data/data/com.termux/files/home/storage/shared/Ninshu/Templates/CaptainsLogX.md" | tail -n 1)
-highlights=$(tail -n 1 "/data/data/com.termux/files/home/storage/shared/Ninshu/Templates/CaptainsLogX.md")
+scratch=$(head -n 14 "/data/data/com.termux/files/home/storage/shared/Ninshu/Templates/CaptainsLogX.md" | tail -n 1)
+cplg=$(head -n 16 "/data/data/com.termux/files/home/storage/shared/Ninshu/Templates/CaptainsLogX.md" | tail -n 1)
+highlights=$(tail -n 2 "/data/data/com.termux/files/home/storage/shared/Ninshu/Templates/CaptainsLogX.md" | head -n 2)
 
-[ ! -f "render.md" ] && echo -e "$buttons\n$scratch\n$cplg\n$(cat "$week/$(date +%a)")\n$highlights" > render.md
+#scratch_external
+#scratch_internal
+
+#<<comment
+[ ! -f "render.md" ] && echo -e "$buttons\n\n$(scratch_external)\n\n\n\n$cplg\n$(cat "$week/$(date +%a)")\n$highlights" > render.md
 while :
 do
-	echo -e "$buttons\n$(scratch_fetch)\n$cplg\n$(cat "$week/$(date +%a)")\n$highlights" > render.md
+#       [ ! "$(scratch_internal)" == "$(scratch_internal)" ] &&
+        until [  "$(scratch_internal)" == "$(scratch_external)" ]
+        do
+                echo "$(scratch_internal)" > "$week/scratch.md"
+#               [  "$(scratch_internal)" == "$(scratch_external)" ] && echo -e "$buttons\n$scratch\n$(cat "$week/scratch.md")\n$cplg\n$(cat "$week/$(date +%a)")\n$highlights" > render.md
+#               break
+        done
+#       [  "$(scratch_internal)" == "$(scratch_external)" ] && echo -e "$buttons\n$scratch\n$(cat "$week/scratch.md")\n$cplg\n$(cat "$week/$(date +%a)")\n$highlights" > render.md
 done
