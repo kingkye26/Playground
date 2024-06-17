@@ -1,0 +1,6 @@
+#!/bin/bash
+#trivia
+answer="$(cat a1)
+question="$(cat q1)"
+read -p "$question: " response
+[ "$response" == "$answer" ] && echo "correctamundo" 
